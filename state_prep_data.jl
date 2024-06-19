@@ -17,6 +17,19 @@ function gen_css_gates(dim)
     end
     return gates
 end
+function convert(Uxx, Uzz, n)
+    # xcolumns = [PauliOperator(0x0, [Uxx[i, j].val==1 for i in 1:n], [false for i in 1:n]) for j in 1:n]
+    # zcolumns = [PauliOperator(0x0, [false for i in 1:n], [Uzz[i, j].val==1 for i in 1:n]) for j in 1:n]
+    # return CliffordColumnForm(cat(xcolumns, zcolumns, dims=1))
+    Cstring_xlist = [join([ifelse(Uxx[i, j].val==1,"X","_") for i in 1:n]) for j in 1:n]
+    Cstring_zlist = [join([ifelse(Uzz[i, j].val==1,"Z","_") for i in 1:n]) for j in 1:n]
+    Cstring_list = vcat(Cstring_xlist,Cstring_zlist)
+    Cstring = join(Cstring_list," ")
+    exp = Meta.parse("gate = C\"$(Cstring)\"")
+    eval(exp)
+    return gate
+
+end
 function gen_css_code_layers(L,d)
     gateset = gen_css_gates(2)
     layer_list = []
@@ -148,7 +161,7 @@ function main_0_alt_single(args)
     levels = args["levels"]
     open("data/$(args["filename"]).csv", "a") do file
         if args["header"] == true
-            write(file, "L,d,p,levels,r,num_samples,$(join(["avg_entropy_$(i)" for i in 1:levels],",")),$(join(["sem_entropy_$(i)" for i in 1:levels],","))\n")
+            write(file, "L,d,p,levels,num_samples,$(join(["avg_entropy_$(i)" for i in 1:levels],",")),$(join(["sem_entropy_$(i)" for i in 1:levels],","))\n")
         end
         entropy_dict = Dict([(q,[]) for q in 0:levels])
         for j in 1:num_samples
@@ -161,8 +174,8 @@ function main_0_alt_single(args)
         end
         entropy_avg = [sum(entropy_dict[q])/length(entropy_dict[q]) for q in 1:levels]
         entropy_std = [sqrt(sum((entropy_dict[q] .- entropy_avg[q]).^2)/(length(entropy_dict[q]) - 1)) for q in 1:levels]
-        entropy_sem = entropy_std ./ sqrt(length(entropy_dict[q]))
-        write(file, "$L,$d,$p,$levels,$r,$num_samples,$(join(entropy_avg,",")),$(join(entropy_sem,","))\n")
+        entropy_sem = [entropy_std[q] / sqrt(length(entropy_dict[q])) for q in 1:levels]
+        write(file, "$L,$d,$p,$levels,$num_samples,$(join(entropy_avg,",")),$(join(entropy_sem,","))\n")
     end
 end
 function parse_commandline()
@@ -176,9 +189,6 @@ function parse_commandline()
             required = true
         "--error_rate", "-p"
             arg_type = Float64
-            required = true
-        "--rate", "-r"
-            arg_type = Int64
             required = true
         "--num_samples", "-n"
             arg_type = Int64

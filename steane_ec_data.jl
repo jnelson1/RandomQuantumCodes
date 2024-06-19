@@ -326,7 +326,7 @@ function main_mi_test5(args)
     plus_order = 0
     zero_order = 1
     m0_plus,m0_zero,m0_stabilizers = gen_input(L,rate)
-    open("data/mi_L_$(L)_d_$(d)_r_$(r)_p_$(p)_q_$(q).csv", "a") do file
+    open("data/mi_L_$(L)_d_$(d)_r_$(rate)_p_$(p)_q_$(q).csv", "a") do file
         if args["header"]
             write(file, "L,d,r,p,q,samples,$(join(["mi_$(i)" for i in 0:rounds],","))\n")
         end
@@ -340,8 +340,8 @@ function main_mi_test5(args)
             mi_list = zeros(rounds+1)
             mi_list[1] = calc_mi(copy(bell_pair),code,L)
             for i in 1:rounds
-                m1,entropy_list = distill_0_alt_v7(layer_list,q,p,L,plus_order,copy(m0_plus))
-                m2,entropy_list = distill_0_alt_v7(layer_list,q,p,L,zero_order,copy(m0_zero))
+                m1 = distill_0_alt_v7(layer_list,q,p,L,plus_order,copy(m0_plus))
+                m2 = distill_0_alt_v7(layer_list,q,p,L,zero_order,copy(m0_zero))
                 bell_pair = bell_pair ⊗ m1 ⊗ m2
                 bell_pair = ec_gadget(bell_pair,p,L)
 
@@ -379,7 +379,7 @@ function parse_commandline()
         "--levels", "-q"
             arg_type = Int64
             required = true
-        "--header", "-h"
+        "--header", "-a"
             action = :store_true
 end
     return parse_args(s)
