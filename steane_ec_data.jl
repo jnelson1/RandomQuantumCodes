@@ -1,5 +1,3 @@
-using ArgParse, CSV, DataFrames, JuMP, Ipopt, Plots, LaTeXStrings
-
 using QuantumClifford,SimpleGF2,LinearAlgebra,Random,Distributions,Plots,CSV,DataFrames,ArgParse
 
 function all_functions(finite_set, nx, ny)

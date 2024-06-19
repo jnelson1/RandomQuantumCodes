@@ -10,7 +10,7 @@ julia --project=. ./state_prep_data.jl -l 48 -d 6 -q 2 -n 1000 -f "filename" -p 
 This produces a csv file with one row that looks as follows:
 
 | L | d | p | levels | num_samples | avg_entropy_1 | avg_entropy_2 | sem_entropy_1 | sem_entropy_2 |
-| -------- | ------- | -------- | ------- | -------- | ------- | -------- | ------- | -------- | ------- |
+| -------- | ------- | -------- | ------- | -------- | ------- | -------- | ------- | -------- |
 | 48 | 6 | 0.005 | 2 | 1000 | ... | ... | ... | ... |
 
 To collect all of the data in Figure 7 of arXiv:2311.17985 (shown below) using SLURM on the cluster, run:
@@ -42,7 +42,7 @@ To run state_prep_plot.jl with the same filename as ./state_prep_data.sh, use ./
 
 Collect data using the command
 ```
-julia --project=. ./steane_ec_data.jl -l 48 -d 6 -q 6 -r 3 -p 0.01 -n 4000 -h
+julia --project=. ./steane_ec_data.jl -l 48 -d 6 -q 6 -r 3 -p 0.01 -n 4000 -a
 ```
 
 This produces a csv file with one row for each sample (so 4000 rows in this case):
