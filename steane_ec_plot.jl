@@ -1,6 +1,6 @@
-using Plots,CSV,DataFrames,ArgParse
+using Plots,CSV,DataFrames,ArgParse,LaTeXStrings
 
-function plot_mi_w_errbar()
+function plot_mi_w_errbar(args)
     l=args["size"]
     r=args["rate"]
 
@@ -12,7 +12,7 @@ function plot_mi_w_errbar()
     d_list=sort(unique(df[!,"d"]))
     for d in d_list
         y_err=[df[j,"sem_mi"] for p in p_list for j in 1:length(df[!,"sem_mi"]) if df[j,"d"] == d && df[j,"p"]==p]
-        plot!(p_list,[df[j,"avg_mi"] for p in p_list for j in 1:length(df[!,"avg_mi"]) if df[j,"d"] == d && df[j,"p"]==p],yerr=y_err,label = "d=$d,q=$q",xlabel = L"p_{in}",ylabel=L"\langle I(A:B) \rangle / n",marker=(:circle,4), grid=false, legend=:bottomleft,  xtickfontsize=15,ytickfontsize=16,xguidefontsize=18,yguidefontsize=18,legendfontsize=14, linewidth=2,xticks=([0.01,0.02,0.03],[0.01,0.02,0.03]))
+        plot!(p_list,[df[j,"avg_mi"] for p in p_list for j in 1:length(df[!,"avg_mi"]) if df[j,"d"] == d && df[j,"p"]==p],yerr=y_err,label = "d=$d,q=$d",xlabel = L"p_{in}",ylabel=L"\langle I(A:B) \rangle / n",marker=(:circle,4), grid=false, legend=:bottomleft,  xtickfontsize=15,ytickfontsize=16,xguidefontsize=18,yguidefontsize=18,legendfontsize=14, linewidth=2,xticks=([0.01,0.02,0.03],[0.01,0.02,0.03]))
     end
     savefig("plots/mi_L_$(l)_r_$(r).pdf")
 end

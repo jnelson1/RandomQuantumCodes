@@ -1,13 +1,13 @@
-using CSV,DataFrames
+using CSV,DataFrames,ArgParse,Statistics
 
 function consolidate(args)
     L=args["size"]
     r=args["rate"]
     dlist = args["dlist"]
-    qlist = agrs["qlist"]
+    qlist = args["qlist"]
     plist = args["plist"]
 
-    open("data/mi_L_$(l)_r_$(r).csv", "a") do file
+    open("data/mi_L_$(L)_r_$(r).csv", "a") do file
         write(file, "L,d,r,p,num_samples,avg_mi,sem_mi\n")
         for (d,q) in zip(dlist,qlist)
             for p in plist
@@ -47,5 +47,5 @@ end
     return parse_args(s)
 end
 if isinteractive() == false
-    main_mi_test5(parse_commandline())
+    consolidate(parse_commandline())
 end

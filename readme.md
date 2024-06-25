@@ -80,7 +80,7 @@ julia --project=. steane_ec_plot.jl -l 48 -r 3
 To generate the finite-size scaling collapse shown in the inset of Figure 9, run:
 
 ```
-julia mi_collapse.jl -l 48 -r 3
+julia --project=. mi_collapse.jl -l 48 -r 3
 ```
 <figure>
     <img src="images/fig9.jpg" width="400" height="270"
