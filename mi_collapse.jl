@@ -106,7 +106,7 @@ function my_plot_collapse_mi(p_c, λ, data, fileid)
         p_out = [data[i,3] for i in 1:n if data[i,1]==d]
         sem=[data[i,4] for i in 1:n if data[i,1]==d]
         x = (p_in .- p_c) .* d^λ
-        scatter!(x, p_out, yerr = 2*sem, label="d=$(d),q=$(d)",marker=(:circle,4), grid=false, legend=false, xlabel = L"(p_{in}-p_c)d^\lambda", xtickfontsize=22,ytickfontsize=22,xguidefontsize=24, linewidth=2,margin=5Plots.mm,xticks=([-0.01,0.0,0.01,0.02],[-0.01,0.0,0.01,0.02]),ylims=(0.29,0.5),yticks=([0.3,0.4,0.5],[0.3,0.4,0.5]))
+        scatter!(x, p_out, yerr = 2*sem, label="d=$(d),q=$(d)",marker=(:circle,4), grid=false, legend=false, xlabel = L"(p_{in}-p_c)d^\lambda", ylabel =  L"\langle I(A:B) \rangle / n", xtickfontsize=15,ytickfontsize=16,xguidefontsize=18,yguidefontsize=18, linewidth=2,margin=5Plots.mm,xticks=([-0.01,0.0,0.01,0.02],[-0.01,0.0,0.01,0.02]),ylims=(0.29,0.5),yticks=([0.3,0.4,0.5],[0.3,0.4,0.5]))
     end
     # for inset
     # for d in [2,4,6]
@@ -127,7 +127,7 @@ function my_plot_collapse_mi(p_c, λ, data, fileid)
     #     scatter!(x, p_out, yerr = 2*sem, label="d=$(d),q=$(d)",marker=(:circle,4), grid=false, legend=:bottomleft, xlabel = L"(p_{in}-p_c)d^\lambda", ylabel =  L"I(A:B)", xtickfontsize=15,ytickfontsize=16,xguidefontsize=18,yguidefontsize=18,legendfontsize=14, linewidth=2,margin=5Plots.mm,xticks=([-0.01,0.0,0.01],[-0.01,0.0,0.01]),yticks=([0.02,0.025],[0.02,0.025]))
     #     #ylims=(0.0275,0.035),xticks=([-0.01,0.0,0.01,0.02],[-0.01,0.0,0.01]),yticks=([0.03,0.035],[0.03,0.035])
     # end
-    savefig("plots/thresh_est_$(fileid)_v2.pdf")
+    savefig("plots/thresh_est_$(fileid)_v1.pdf")
 
 end
 
