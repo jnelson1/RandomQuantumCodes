@@ -19,12 +19,6 @@ sbatch --time=72:00:00 --mem=8gb state_prep_data.sh
 ```
 which runs the state_prep_data.jl program for all of the parameter configurations in Figure 7. Each data point is saved in the same csv file and added as a row of the above table. 
 
-To move this csv file from the cluster to a local folder, first cd into the desired folder and then run:
-
-```
-scp nelson1@nexusquics00.umiacs.umd.edu:data/state_prep_entropy_L_48_d_6_q_6_r_3_n_1000 .
-```
-
 To generate the plot, run
 ```
 julia --project=. state_prep_plot.jl -f "filename" -r 2 4 6
